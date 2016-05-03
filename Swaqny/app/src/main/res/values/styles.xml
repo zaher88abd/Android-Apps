@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Swaqny" parent="AppTheme">
+        <item name="colorPrimary">#53ADDB</item>
+        <item name="colorPrimaryDark">#3c7a9b</item>
+        <item name="colorAccent">#A6CC3D</item>
+    </style>
+
+</resources>

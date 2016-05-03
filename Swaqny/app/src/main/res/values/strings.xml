@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="Open">open</string>
+    <string name="Close">close</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+</resources>
