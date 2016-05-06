@@ -2,7 +2,6 @@ package com.abd.zaher88.swaqny.DataClasses;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ public class ListCategoryAdapter extends RecyclerView.Adapter<VHCategory> {
 
 
     public ListCategoryAdapter(Context context, List<Category> listCategories,OnItemClickListener listener) {
+       // clearData();
         this.listCategories = listCategories;
         this.layoutInflater= LayoutInflater.from(context);
         this.listener=listener;
@@ -39,14 +39,18 @@ public class ListCategoryAdapter extends RecyclerView.Adapter<VHCategory> {
         return vhCategory;
     }
 
+
+
     @Override
     public void onBindViewHolder(VHCategory holder, int position) {
-        Log.d("ListCategoryAdapter","onBindViewHolder"+position);
+      //  Log.d("ListCategoryAdapter","onBindViewHolder"+position);
         holder.setData(listCategories.get(position),listener,position);
     }
+
 
     @Override
     public int getItemCount() {
         return listCategories.size();
     }
+
 }

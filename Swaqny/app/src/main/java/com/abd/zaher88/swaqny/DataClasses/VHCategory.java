@@ -13,6 +13,7 @@ import com.abd.zaher88.swaqny.R;
 public class VHCategory extends RecyclerView.ViewHolder {
     TextView tvCatrgorName;
     ImageView imageNext;
+    boolean childrens;
     int position;
     int id;
 
@@ -25,8 +26,10 @@ public class VHCategory extends RecyclerView.ViewHolder {
     public void setData(final Category category, final ListCategoryAdapter.OnItemClickListener listener, int position) {
         this.tvCatrgorName.setText(category.getName());
         this.id = category.getId();
-        if (category.isChildrens())
+        if (category.getChildrens().size() > 0) {
+            this.childrens = true;
             imageNext.setBackgroundResource(R.drawable.ic_navigate_next_black_48dp);
+        } else this.childrens = false;
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -26,12 +26,12 @@ public class VHMaterial extends RecyclerView.ViewHolder {
     }
 
 
-    public void setData(final Material material, final ListMaterialAdapter.OnItemClickListener listener, int position) {
+    public void setData(final Material material, final ListMaterialAdapter.OnMatrialItemClickListener listener, int position) {
         this.tvMaterialName.setText(material.getName());
         this.id = material.getId();
-        this.tvPrice.setText(Float.toString(material.getPrice()));
-        this.tvUnit.setText(material.getUnit().toString());
-        //imageCode
+        this.tvPrice.setText(Double.toString(material.getPrice()));
+        this.tvUnit.setText(material.getUnit().getName().toString());
+        this.imageMaterial.setImageResource(R.drawable.rsz_bananasf);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

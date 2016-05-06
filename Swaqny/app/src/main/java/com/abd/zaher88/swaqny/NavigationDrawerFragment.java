@@ -35,73 +35,101 @@ public class NavigationDrawerFragment extends Fragment {
     private DrawerLisner drawerLisner;
     ViewGroup viewGroup;
     List<Category> list;
+    RecyclerView recyclerView;
+    ListCategoryAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        drawerLisner=(DrawerLisner) ((Activity)context);
+        drawerLisner = (DrawerLisner) ((Activity) context);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-     View   view = inflater.inflate(R.layout.fragment_nav_drawer, container, false);
+        View view = inflater.inflate(R.layout.fragment_nav_drawer, container, false);
         viewGroup = container;
-        getListCategory(view);
-        Log.d("NavigationDrawerFragment","onCreateView");
+        getListCategory(view, 0);
+        Log.d("NavigationDrawerFragment", "onCreateView");
         return view;
     }
 
-    private void getListCategory(final View view) {
+    private void getListCategory(final View view, int categoryId) {
         list = new ArrayList<Category>();
         try {
+            RestClient restClient = new RestClient();
+            SawqniService service = restClient.getApiService();
             String lan;
             if (Locale.getDefault().getDisplayLanguage().equals("العربية"))
-                lan=Constants.ArabicLanguge;
-            else lan=Constants.EngLanguge;
+                lan = Constants.ArabicLanguge;
+            else lan = Constants.EngLanguge;
 
-            RestClient restClient=new RestClient();
-            SawqniService service=restClient.getApiService();
-            Call<Category> call=service.getParentsMateralsCategoriesResult(Constants.UserService,Constants.PassService,lan);
-            call.enqueue(new Callback<Category>() {
-                @Override
-                public void onResponse(Response<Category> response, Retrofit retrofit) {
-                    if(response.isSuccess())
-                    {
-                        Log.d("getAllMaterialsCategories","isSuccess");
-                        Category c=response.body();
-                        list=response.body().GetParentsMateralsCategoriesResult();
-                        setUpRecyclerView(view, list);
+            if (categoryId == 0) {
+                Call<Category> call = service.getAllMaterialsCategories
+                        (Constants.UserService, Constants.PassService, lan);
+                call.enqueue(new Callback<Category>() {
+                    @Override
+                    public void onResponse(Response<Category> response, Retrofit retrofit) {
+                        if (response.isSuccess()) {
+                            Log.d("getAllMaterialsCategories", "isSuccess");
+                            Category c = response.body();
+                            list = response.body().getGetAllMaterialsCategoriesResult();
+                            setUpRecyclerView(view, list);
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Throwable t) {
-                    Log.d("getAllMaterialsCategories","onFailure :"+t.getMessage());
-                }
-            });
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.d("getAllMaterialsCategories", "onFailure :" + t.getMessage());
+                    }
+                });
+            } else {
+
+                Log.d("getAllMaterialsCategories/GetAllMaterialsCategoriesByParentId" + categoryId, "isSuccess");
+                Call<Category> call = service.GetAllMaterialsCategoriesByParentId
+                        (Constants.UserService, Constants.PassService, lan, categoryId);
+                call.enqueue(new Callback<Category>() {
+                    @Override
+                    public void onResponse(Response<Category> response, Retrofit retrofit) {
+                        if (response.isSuccess()) {
+                            Log.d("getAllMaterialsCategories/GetAllMaterialsCategoriesByParentId", "isSuccess");
+                            Category c = response.body();
+                            list = response.body().getGetAllMaterialsCategoriesByParentIdResult();
+                            Log.d("testList", String.valueOf(list.size()));
+                            setUpRecyclerView(view, list);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.d("getAllMaterialsCategories", "onFailure :" + t.getMessage());
+                    }
+                });
+            }
         } catch (Exception ex) {
             Log.d("getListCategory", ex.getMessage());
         }
 
     }
 
-    private void setUpRecyclerView(View view, List<Category> listCategory) {
-        try{
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rcvCategory);
-        ListCategoryAdapter adapter = new ListCategoryAdapter(getActivity(), listCategory,
-                new ListCategoryAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Category item) {
-                drawerLisner.setCatigoryMaterial(item.getId());
+    private void setUpRecyclerView(final View view, List<Category> listCategory) {
+        try {
+            recyclerView = (RecyclerView) view.findViewById(R.id.rcvCategory);
+            recyclerView.clearFocus();
+            adapter = new ListCategoryAdapter(getActivity(), listCategory,
+                    new ListCategoryAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Category item) {
+                            if (item.getChildrens().size() > 0) {
+                                getListCategory(view, item.getId());
+                            } else
+                                drawerLisner.setCatigoryMaterial(item.getId());
+                        }
+                    });
 
-                Log.d("asdas", "asdas");
-            }
-        });
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }catch (Exception e)
-        {
-            Log.d("setUpRecyclerView",e.getMessage());
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        } catch (Exception e) {
+            Log.d("setUpRecyclerView", e.getMessage());
         }
     }
 
@@ -140,4 +168,6 @@ public class NavigationDrawerFragment extends Fragment {
     public interface DrawerLisner {
         public void setCatigoryMaterial(int Id);
     }
+
+
 }

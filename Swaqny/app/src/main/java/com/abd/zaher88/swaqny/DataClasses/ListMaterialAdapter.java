@@ -15,15 +15,15 @@ import java.util.List;
  */
 public class ListMaterialAdapter extends RecyclerView.Adapter<VHMaterial> {
 
-    public interface OnItemClickListener {
+    public interface OnMatrialItemClickListener {
         void onItemClick(Material item);
     }
 
     private List<Material> listMatrial;
     private LayoutInflater layoutInflater;
-    private final OnItemClickListener listener;
+    private final OnMatrialItemClickListener listener;
 
-    public ListMaterialAdapter(Context context, List<Material> listMatrial, OnItemClickListener listener) {
+    public ListMaterialAdapter(Context context, List<Material> listMatrial, OnMatrialItemClickListener listener) {
         this.listMatrial = listMatrial;
         this.layoutInflater = LayoutInflater.from(context);
         this.listener = listener;

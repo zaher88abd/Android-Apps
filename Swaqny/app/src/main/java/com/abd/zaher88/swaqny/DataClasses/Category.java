@@ -1,53 +1,63 @@
 package com.abd.zaher88.swaqny.DataClasses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Zaher on 28/04/2016.
  */
 public class Category {
+    private List<Category> Childrens;
     private int Id;
     private String Name;
-    private boolean Childrens;
+    private Category Parent;
+    private List<Category> GetAllMaterialsCategoriesResult;
+    private List<Category> GetAllMaterialsCategoriesByParentIdResult;
     private List<Category> GetParentsMateralsCategoriesResult;
-    public List<Category> GetParentsMateralsCategoriesResult(){
+
+    public List<Category> getGetParentsMateralsCategoriesResult() {
         return GetParentsMateralsCategoriesResult;
     }
 
-    public int getId() {
-        return Id;
+    public List<Category> getGetAllMaterialsCategoriesByParentIdResult() {
+        return GetAllMaterialsCategoriesByParentIdResult;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public List<Category> getChildrens() {
+        return this.Childrens;
+    }
+
+    public void setChildrens(ArrayList<Category> Childrens) {
+        this.Childrens = Childrens;
+    }
+
+    public int getId() {
+        return this.Id;
+    }
+
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
     public String getName() {
-        return Name;
+        return this.Name;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
-    public boolean isChildrens() {
-        return Childrens;
+    public Category getParent() {
+        return this.Parent;
     }
 
-    public void setChildrens(boolean childrens) {
-        Childrens = childrens;
+    public void setParent(Category Parent) {
+        this.Parent = Parent;
     }
 
-    public Category() {
-
+    public List<Category> getGetAllMaterialsCategoriesResult() {
+        return this.GetAllMaterialsCategoriesResult;
     }
-
-    public Category(int id, String name, String nameAr, boolean lastChild) {
-        this.Id = id;
-        this.Name = name;
-        this.Childrens = lastChild;
-    }
-
 
 }
 
